@@ -2,10 +2,10 @@
   "schemaVersion": 3,
   "binaries": [
     {
-      "title": "TexasHoldEmFX",
-      "filename": "TexasHoldEmFX.hex",
-      "flashdata": "TexasHoldEmFX-data.bin",
-      "flashsave": "TexasHoldEmFX-save.bin",
+      "title": "OhHellFX",
+      "filename": "OhHellFX.hex",
+      "flashdata": "OhHellFX-data.bin",
+      "flashsave": "OhHellFX-save.bin",
       "device": "ArduboyFX"
     }
   ]

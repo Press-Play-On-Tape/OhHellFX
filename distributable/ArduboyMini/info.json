@@ -2,10 +2,10 @@
   "schemaVersion": 3,
   "binaries": [
     {
-      "title": "TexasHoldEmMini",
-      "filename": "TexasHoldEmMiniMini.hex",
-      "flashdata": "TexasHoldEmMiniMini-data.bin",
-      "flashsave": "TexasHoldEmMiniMini-save.bin",
+      "title": "Oh Hell Mini",
+      "filename": "OhHellMini.hex",
+      "flashdata": "OhHellMini-data.bin",
+      "flashsave": "OhHellMini-save.bin",
       "device": "ArduboyMini"
     }
   ]

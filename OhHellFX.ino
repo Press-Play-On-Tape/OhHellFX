@@ -66,6 +66,8 @@ void setup() {
     setAudioOn();
     #endif
 
+    game.setFrameCount(0);
+
 }
 
 void loop() {
