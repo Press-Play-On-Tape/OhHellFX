@@ -383,7 +383,7 @@ void title(ArduboyGBase_Config<ABG_Mode::L4_Triplane> &a) {
 
 void renderCommon(uint8_t currentPlane) {
     
-    SpritesU::drawOverwriteFX(0, 0, Images::Fire, (3 * (15- ((game.getFrameCount()/6) % 16))) + currentPlane);
+    SpritesU::drawOverwriteFX(0, 0, Images::Fire, (3 * ((game.getFrameCount()/6) % 16)) + currentPlane);
 
     switch (game.getFrameCount()) {
 

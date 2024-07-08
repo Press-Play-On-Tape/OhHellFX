@@ -596,6 +596,9 @@ void play_Update() {
             bid = 0;
             gameState = GameState::Play_EOR;
             game.resetFrameCount();
+                
+            cookie.hasSavedGame = true;
+            saveCookie(true);
 
             break;
 
@@ -840,7 +843,7 @@ void play(ArduboyGBase_Config<ABG_Mode::L4_Triplane> &a) {
             {
                 uint8_t idx = static_cast<uint8_t>(gameState) - static_cast<uint8_t>(GameState::Pause_01);
 
-                SpritesU::drawOverwriteFX(0, 0, Images::Fire, (3 * (15 - ((game.getFrameCount()/6) % 16))) + currentPlane);                
+                SpritesU::drawOverwriteFX(0, 0, Images::Fire, (3 * ( ((game.getFrameCount()/6) % 16))) + currentPlane);                
                 SpritesU::drawPlusMaskFX(0, 0, Images::Pause,(idx * 3) + currentPlane);
 
             }
