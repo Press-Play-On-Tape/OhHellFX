@@ -37,7 +37,7 @@ struct Player {
 
         void addScore(uint8_t score) {
 
-            for (int8_t i = 5; i >= 0; i--) {
+            for (int8_t i = 4; i >= 0; i--) {
 
                 this->scores[i + 1] = this->scores[i];
 
@@ -233,6 +233,9 @@ struct Player {
 
             for (uint8_t i = 0; i < this->getCardCount(); i++) {
 
+
+                // Skip the current card if the next in seq is the same suit ..
+
                 if (i < this->getCardCount() - 1 && this->cards[i].getSuit() == this->cards[i + 1].getSuit()) {
                     continue;
                 }
@@ -276,60 +279,59 @@ struct Player {
         }
 
 
+        void printCard(Card &card) {
+            
+            #ifdef DEBUG
 
-void printCard(Card &card) {
-    
-    #ifdef DEBUG
+                switch (card.getValue()) {
 
-        switch (card.getValue()) {
+                    case 0 ... 10:
+                        DEBUG_PRINT(card.getValue());
+                        break;
 
-            case 0 ... 10:
-                DEBUG_PRINT(card.getValue());
-                break;
+                    case 11:
+                        DEBUG_PRINT("J");
+                        break;
 
-            case 11:
-                DEBUG_PRINT("J");
-                break;
+                    case 12:
+                        DEBUG_PRINT("Q");
+                        break;
+                        
+                    case 13:
+                        DEBUG_PRINT("K");
+                        break;
+                        
+                    case 14:
+                        DEBUG_PRINT("A");
+                        break;
 
-            case 12:
-                DEBUG_PRINT("Q");
-                break;
-                
-            case 13:
-                DEBUG_PRINT("K");
-                break;
-                
-            case 14:
-                DEBUG_PRINT("A");
-                break;
+                }
+
+                switch (card.getSuit()) {
+
+                    case Suits::Spade:
+                        DEBUG_PRINT("S");
+                        break;
+
+                    case Suits::Club:
+                        DEBUG_PRINT("C");
+                        break;
+
+                    case Suits::Diamond:
+                        DEBUG_PRINT("D");
+                        break;
+
+                    case Suits::Heart:
+                        DEBUG_PRINT("H");
+                        break;
+                        
+                    case Suits::None:
+                        DEBUG_PRINT("_");
+                        break;
+                }
+
+        #endif
 
         }
-
-        switch (card.getSuit()) {
-
-            case Suits::Spade:
-                DEBUG_PRINT("S");
-                break;
-
-            case Suits::Club:
-                DEBUG_PRINT("C");
-                break;
-
-            case Suits::Diamond:
-                DEBUG_PRINT("D");
-                break;
-
-            case Suits::Heart:
-                DEBUG_PRINT("H");
-                break;
-                
-            case Suits::None:
-                DEBUG_PRINT("_");
-                break;
-        }
-
-   #endif
-
-}
 
 };

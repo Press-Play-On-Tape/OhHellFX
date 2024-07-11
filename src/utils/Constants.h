@@ -6,6 +6,7 @@
 #define DEBUG_PRINTLN  Serial.println
 
 #define _DEBUG
+#define _DEBUG_CRASH
 #define _DEBUG_RENDER_HAND
 #define _DEBUG_FIX_TABLE_CARDS
 #define _DEBUG_ACTIONS
@@ -73,6 +74,8 @@ namespace Constants {
     constexpr uint8_t NoBid = 255;
     constexpr uint8_t NoWinner = 255;
     constexpr uint8_t PlayerCount = 4;
+    constexpr uint8_t CardsInDeck = 52;
+    constexpr uint8_t HumanPlayer = 1;
 
     constexpr uint8_t Delay = 12;
     constexpr uint8_t Title_Start_Action = 60;

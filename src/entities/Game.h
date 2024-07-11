@@ -32,7 +32,6 @@ struct Game {
 
         Player players[4];
         Card cardsPile[52];
-        Card discardPile[52];
 
         uint8_t getCardCount()                          { return this->cardCount; }
         uint8_t getDealer()                             { return this->dealer; }
@@ -95,11 +94,11 @@ struct Game {
 
         void shuffleCardsPile() {
 
-            uint8_t n = 52;
+            uint8_t n = Constants::CardsInDeck;
 
             for (uint8_t i = 0; i < n - 1; i++) {
 
-                uint8_t j = random(52);
+                uint8_t j = random(Constants::CardsInDeck);
                 Card t = this->cardsPile[j];
                 this->cardsPile[j] = this->cardsPile[i];
                 this->cardsPile[i] = t;
@@ -123,21 +122,21 @@ struct Game {
         }
 
 
-        uint8_t getHumanId() {
-
-            return 1;
-            
-        }
-
         void setup() {
 
             this->cardCount = 10;
             this->direction = Direction::Down;
             this->turnedCard.setSuit(Suits::None);
 
-            for (uint8_t i = 0; i < 4; i++) {
+            for (uint8_t i = 0; i < Constants::PlayerCount; i++) {
 
                 this->players[i].setPlayerNumber(i);
+
+                for (uint8_t j = 0; j < 6; j++) {
+
+                    this->players[i].setScores(j, 0);
+
+                }
 
             }
 
@@ -156,7 +155,7 @@ struct Game {
 
         }
 
-        uint8_t checkWinner(bool updateWinner) {
+        uint8_t checkWinner(bool updateWinner) {    // Which player has won  the hand?
           
             uint8_t winner = this->firstPlayer;
             bool trumped = false;
@@ -164,7 +163,7 @@ struct Game {
             Suits playedSuit = this->tableCards[this->firstPlayer].getSuit();
             uint8_t highestValue = this->tableCards[this->firstPlayer].getValue();
 
-            for (uint8_t i = 0; i < 4; i++) {
+            for (uint8_t i = 0; i < Constants::PlayerCount; i++) {
 
                 if (i != this->firstPlayer) {
                     
@@ -229,7 +228,7 @@ struct Game {
 
         }
 
-        bool cardIsHighestOnTable(Card &selectedCard) {
+        bool cardIsHighestOnTable(Card &selectedCard) {     // Is the card nominated the highest on the table?
 
             uint8_t winner = checkWinner(false);
 
@@ -260,7 +259,7 @@ struct Game {
             this->firstPlayer = this->winner;
             this->winner = 0;
 
-            for(uint8_t i = 0; i < 4; i++) {
+            for(uint8_t i = 0; i < Constants::PlayerCount; i++) {
 
                 this->tableCards[i].setSuit(Suits::None);
 
@@ -270,7 +269,7 @@ struct Game {
 
         void resetEOR() {
 
-            for(uint8_t i = 0; i < 52; i++) {
+            for(uint8_t i = 0; i < Constants::CardsInDeck; i++) {
 
                 this->playedCards[i] = 0;
 

@@ -71,9 +71,10 @@ void title_Update() {
 
             if (justPressed & A_BUTTON) {
                 
+                gameState = GameState::Play_Init;
+                game.setPrevGameState(gameState);
                 cookie.hasSavedGame = false;
                 saveCookie(true);
-                gameState = GameState::Play_Init;
                 game_Init();
 
             }
@@ -87,7 +88,23 @@ void title_Update() {
             }
 
             if (justPressed & A_BUTTON) {
-                gameState = game.getPrevGameState();
+
+                switch (game.getPrevGameState()) {
+
+                    case GameState::Play_Init ... GameState::Play_End:
+                        gameState = game.getPrevGameState();
+                        break;
+
+                    default:
+                        gameState = GameState::Play_Init;
+                        game.setPrevGameState(gameState);
+                        cookie.hasSavedGame = false;
+                        saveCookie(true);
+                        game_Init();
+                        break;
+
+                }
+                
             }
 
             break;

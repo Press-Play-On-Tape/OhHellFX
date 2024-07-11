@@ -18,19 +18,24 @@ void play_Init() {
 
     game.fillCardsPile();
     game.shuffleCardsPile();
-    game.players[game.getHumanId()].sort();
+    game.players[Constants::HumanPlayer].sort();
 
     populateRotateDetails();
 
     game.setFirstPlayer((game.getDealer() + 1) % 4);
     game.resetEOR();
 
-    for (uint8_t i = 0; i < 4; i++) {
+    for (uint8_t i = 0; i < Constants::PlayerCount; i++) {
 
         game.players[i].resetEOR();
         game.getTableCard(i).setSuit(Suits::None);
 
     }
+
+
+    #ifdef DEBUG_CRASH
+        game.setCardCount(9);
+    #endif
 
 }
 
@@ -108,7 +113,7 @@ void play_Update() {
                     }
                     else {
 
-                        for (uint8_t i = 0; i < 4; i++) {            
+                        for (uint8_t i = 0; i < Constants::PlayerCount; i++) {            
                             game.players[i].sort();                        
                         }
 
@@ -136,11 +141,145 @@ void play_Update() {
                 game.setPlayedCard(game.getTurnedCard().getSortValue(), game.getPlayedCard(game.getTurnedCard().getSortValue()) | 0x0F);
 
                 game.resetFrameCount();
-                bid = game.players[game.getHumanId()].getInitialBid(game.getTurnedCard().getSuit());
+                bid = game.players[Constants::HumanPlayer].getInitialBid(game.getTurnedCard().getSuit());
                 gameState = static_cast<GameState>(static_cast<uint8_t>(GameState::Play_Bid_00) + ((game.getDealer() + 1) % 4));
 
-                // printPlayerHands();
-                // printPlayedCards();
+                #ifdef DEBUG_CRASH
+
+                    game.setDealer(1);
+                    game.setFirstPlayer(2);
+
+                    for (uint8_t i = 0; i < 52; i++) {
+                        game.setPlayedCard(i, 0);
+                    }
+
+                    game.players[0].getCard(0).setSuit(Suits::Spade);
+                    game.players[0].getCard(0).setValue(3);
+                    game.players[0].getCard(1).setSuit(Suits::Spade);
+                    game.players[0].getCard(1).setValue(7);
+                    game.players[0].getCard(2).setSuit(Suits::Spade);
+                    game.players[0].getCard(2).setValue(8);
+                    game.players[0].getCard(3).setSuit(Suits::Spade);
+                    game.players[0].getCard(3).setValue(10);
+                    game.players[0].getCard(4).setSuit(Suits::Club);
+                    game.players[0].getCard(4).setValue(8);
+                    game.players[0].getCard(5).setSuit(Suits::Diamond);
+                    game.players[0].getCard(5).setValue(3);
+                    game.players[0].getCard(6).setSuit(Suits::Diamond);
+                    game.players[0].getCard(6).setValue(10);
+                    game.players[0].getCard(7).setSuit(Suits::Diamond);
+                    game.players[0].getCard(7).setValue(14);
+                    game.players[0].getCard(8).setSuit(Suits::Heart);
+                    game.players[0].getCard(8).setValue(13);
+
+                    game.setPlayedCard(game.players[0].getCard(0).getSortValue(), game.getPlayedCard(game.players[0].getCard(0).getSortValue()) | 0x10);
+                    game.setPlayedCard(game.players[0].getCard(1).getSortValue(), game.getPlayedCard(game.players[0].getCard(1).getSortValue()) | 0x10);
+                    game.setPlayedCard(game.players[0].getCard(2).getSortValue(), game.getPlayedCard(game.players[0].getCard(2).getSortValue()) | 0x10);
+                    game.setPlayedCard(game.players[0].getCard(3).getSortValue(), game.getPlayedCard(game.players[0].getCard(3).getSortValue()) | 0x10);
+                    game.setPlayedCard(game.players[0].getCard(4).getSortValue(), game.getPlayedCard(game.players[0].getCard(4).getSortValue()) | 0x10);
+                    game.setPlayedCard(game.players[0].getCard(5).getSortValue(), game.getPlayedCard(game.players[0].getCard(5).getSortValue()) | 0x10);
+                    game.setPlayedCard(game.players[0].getCard(6).getSortValue(), game.getPlayedCard(game.players[0].getCard(6).getSortValue()) | 0x10);
+                    game.setPlayedCard(game.players[0].getCard(7).getSortValue(), game.getPlayedCard(game.players[0].getCard(7).getSortValue()) | 0x10);
+                    game.setPlayedCard(game.players[0].getCard(8).getSortValue(), game.getPlayedCard(game.players[0].getCard(8).getSortValue()) | 0x10);
+
+                    game.players[1].getCard(0).setSuit(Suits::Spade);
+                    game.players[1].getCard(0).setValue(2);
+                    game.players[1].getCard(1).setSuit(Suits::Club);
+                    game.players[1].getCard(1).setValue(3);
+                    game.players[1].getCard(2).setSuit(Suits::Club);
+                    game.players[1].getCard(2).setValue(4);
+                    game.players[1].getCard(3).setSuit(Suits::Club);
+                    game.players[1].getCard(3).setValue(14);
+                    game.players[1].getCard(4).setSuit(Suits::Diamond);
+                    game.players[1].getCard(4).setValue(5);
+                    game.players[1].getCard(5).setSuit(Suits::Diamond);
+                    game.players[1].getCard(5).setValue(6);
+                    game.players[1].getCard(6).setSuit(Suits::Diamond);
+                    game.players[1].getCard(6).setValue(9);
+                    game.players[1].getCard(7).setSuit(Suits::Heart);
+                    game.players[1].getCard(7).setValue(6);
+                    game.players[1].getCard(8).setSuit(Suits::Heart);
+                    game.players[1].getCard(8).setValue(8);
+
+                    game.setPlayedCard(game.players[1].getCard(0).getSortValue(), game.getPlayedCard(game.players[1].getCard(0).getSortValue()) | 0x20);
+                    game.setPlayedCard(game.players[1].getCard(1).getSortValue(), game.getPlayedCard(game.players[1].getCard(1).getSortValue()) | 0x20);
+                    game.setPlayedCard(game.players[1].getCard(2).getSortValue(), game.getPlayedCard(game.players[1].getCard(2).getSortValue()) | 0x20);
+                    game.setPlayedCard(game.players[1].getCard(3).getSortValue(), game.getPlayedCard(game.players[1].getCard(3).getSortValue()) | 0x20);
+                    game.setPlayedCard(game.players[1].getCard(4).getSortValue(), game.getPlayedCard(game.players[1].getCard(4).getSortValue()) | 0x20);
+                    game.setPlayedCard(game.players[1].getCard(5).getSortValue(), game.getPlayedCard(game.players[1].getCard(5).getSortValue()) | 0x20);
+                    game.setPlayedCard(game.players[1].getCard(6).getSortValue(), game.getPlayedCard(game.players[1].getCard(6).getSortValue()) | 0x20);
+                    game.setPlayedCard(game.players[1].getCard(7).getSortValue(), game.getPlayedCard(game.players[1].getCard(7).getSortValue()) | 0x20);
+                    game.setPlayedCard(game.players[1].getCard(8).getSortValue(), game.getPlayedCard(game.players[1].getCard(8).getSortValue()) | 0x20);
+
+                    game.players[2].getCard(0).setSuit(Suits::Spade);
+                    game.players[2].getCard(0).setValue(4);
+                    game.players[2].getCard(1).setSuit(Suits::Spade);
+                    game.players[2].getCard(1).setValue(5);
+                    game.players[2].getCard(2).setSuit(Suits::Spade);
+                    game.players[2].getCard(2).setValue(12);
+                    game.players[2].getCard(3).setSuit(Suits::Club);
+                    game.players[2].getCard(3).setValue(6);
+                    game.players[2].getCard(4).setSuit(Suits::Club);
+                    game.players[2].getCard(4).setValue(7);
+                    game.players[2].getCard(5).setSuit(Suits::Club);
+                    game.players[2].getCard(5).setValue(10);
+                    game.players[2].getCard(6).setSuit(Suits::Club);
+                    game.players[2].getCard(6).setValue(11);
+                    game.players[2].getCard(7).setSuit(Suits::Heart);
+                    game.players[2].getCard(7).setValue(4);
+                    game.players[2].getCard(8).setSuit(Suits::Heart);
+                    game.players[2].getCard(8).setValue(10);
+
+                    game.setPlayedCard(game.players[2].getCard(0).getSortValue(), game.getPlayedCard(game.players[2].getCard(0).getSortValue()) | 0x40);
+                    game.setPlayedCard(game.players[2].getCard(1).getSortValue(), game.getPlayedCard(game.players[2].getCard(1).getSortValue()) | 0x40);
+                    game.setPlayedCard(game.players[2].getCard(2).getSortValue(), game.getPlayedCard(game.players[2].getCard(2).getSortValue()) | 0x40);
+                    game.setPlayedCard(game.players[2].getCard(3).getSortValue(), game.getPlayedCard(game.players[2].getCard(3).getSortValue()) | 0x40);
+                    game.setPlayedCard(game.players[2].getCard(4).getSortValue(), game.getPlayedCard(game.players[2].getCard(4).getSortValue()) | 0x40);
+                    game.setPlayedCard(game.players[2].getCard(5).getSortValue(), game.getPlayedCard(game.players[2].getCard(5).getSortValue()) | 0x40);
+                    game.setPlayedCard(game.players[2].getCard(6).getSortValue(), game.getPlayedCard(game.players[2].getCard(6).getSortValue()) | 0x40);
+                    game.setPlayedCard(game.players[2].getCard(7).getSortValue(), game.getPlayedCard(game.players[2].getCard(7).getSortValue()) | 0x40);
+                    game.setPlayedCard(game.players[2].getCard(8).getSortValue(), game.getPlayedCard(game.players[2].getCard(8).getSortValue()) | 0x40);
+
+                    game.players[3].getCard(0).setSuit(Suits::Spade);
+                    game.players[3].getCard(0).setValue(6);
+                    game.players[3].getCard(1).setSuit(Suits::Spade);
+                    game.players[3].getCard(1).setValue(9);
+                    game.players[3].getCard(2).setSuit(Suits::Spade);
+                    game.players[3].getCard(2).setValue(13);
+                    game.players[3].getCard(3).setSuit(Suits::Club);
+                    game.players[3].getCard(3).setValue(12);
+                    game.players[3].getCard(4).setSuit(Suits::Diamond);
+                    game.players[3].getCard(4).setValue(8);
+                    game.players[3].getCard(5).setSuit(Suits::Diamond);
+                    game.players[3].getCard(5).setValue(11);
+                    game.players[3].getCard(6).setSuit(Suits::Heart);
+                    game.players[3].getCard(6).setValue(3);
+                    game.players[3].getCard(7).setSuit(Suits::Heart);
+                    game.players[3].getCard(7).setValue(5);
+                    game.players[3].getCard(8).setSuit(Suits::Heart);
+                    game.players[3].getCard(8).setValue(9);
+
+                    game.setPlayedCard(game.players[3].getCard(0).getSortValue(), game.getPlayedCard(game.players[3].getCard(0).getSortValue()) | 0x80);
+                    game.setPlayedCard(game.players[3].getCard(1).getSortValue(), game.getPlayedCard(game.players[3].getCard(1).getSortValue()) | 0x80);
+                    game.setPlayedCard(game.players[3].getCard(2).getSortValue(), game.getPlayedCard(game.players[3].getCard(2).getSortValue()) | 0x80);
+                    game.setPlayedCard(game.players[3].getCard(3).getSortValue(), game.getPlayedCard(game.players[3].getCard(3).getSortValue()) | 0x80);
+                    game.setPlayedCard(game.players[3].getCard(4).getSortValue(), game.getPlayedCard(game.players[3].getCard(4).getSortValue()) | 0x80);
+                    game.setPlayedCard(game.players[3].getCard(5).getSortValue(), game.getPlayedCard(game.players[3].getCard(5).getSortValue()) | 0x80);
+                    game.setPlayedCard(game.players[3].getCard(6).getSortValue(), game.getPlayedCard(game.players[3].getCard(6).getSortValue()) | 0x80);
+                    game.setPlayedCard(game.players[3].getCard(7).getSortValue(), game.getPlayedCard(game.players[3].getCard(7).getSortValue()) | 0x80);
+                    game.setPlayedCard(game.players[3].getCard(8).getSortValue(), game.getPlayedCard(game.players[3].getCard(8).getSortValue()) | 0x80);
+
+                    game.getTurnedCard().setValue(14);                
+                    game.getTurnedCard().setSuit(Suits::Spade);       
+                    game.setPlayedCard(game.getTurnedCard().getSortValue(), game.getPlayedCard(game.getTurnedCard().getSortValue()) | 0x0F);
+
+                    bid = game.players[Constants::HumanPlayer].getInitialBid(game.getTurnedCard().getSuit());
+                    gameState = GameState::Play_Bid_02;
+
+                #endif
+
+                printPlayerHands();
+                printPlayedCards();
 
             }
 
@@ -150,6 +289,9 @@ void play_Update() {
         case GameState::Play_Bid_01:
         case GameState::Play_Bid_11:
             
+
+            // Handle increase / decrease of bidding ..
+
             if (justPressed & UP_BUTTON) {
              
                 if (bid < game.getCardCount()) bid++;
@@ -162,12 +304,15 @@ void play_Update() {
 
             }
 
+
+            // Accept bid ..
+
             if (justPressed & A_BUTTON) {
 
                 uint8_t firstPlayer = (game.getDealer() + 1) % 4;
                 uint8_t playerIdx = (static_cast<uint8_t>(gameState) - static_cast<uint8_t>(GameState::Play_Bid_00));
              
-                game.players[game.getHumanId()].setBid(bid);
+                game.players[Constants::HumanPlayer].setBid(bid);
 
                 gameState++;
                 game.resetFrameCount();
@@ -184,6 +329,9 @@ void play_Update() {
                 #endif
 
             }
+
+
+            // Pause game?
 
             if (justPressed & B_BUTTON) {
 
@@ -261,7 +409,7 @@ void play_Update() {
 
             if (justPressed & RIGHT_BUTTON) {
 
-                for (int8_t i = game.getSelectedCard() + 1; i < game.players[game.getHumanId()].getCardCount(); i++) {
+                for (int8_t i = game.getSelectedCard() + 1; i < game.players[Constants::HumanPlayer].getCardCount(); i++) {
 
                     if (game.getValidCard(i)) {
                        
@@ -276,14 +424,14 @@ void play_Update() {
 
             if (justPressed & UP_BUTTON || justPressed & A_BUTTON) {
                 
-                Card &tableCard = game.getTableCard(game.getHumanId());
-                Card &selectedCard = game.players[game.getHumanId()].getCard(game.getSelectedCard());
+                Card &tableCard = game.getTableCard(Constants::HumanPlayer);
+                Card &selectedCard = game.players[Constants::HumanPlayer].getCard(game.getSelectedCard());
 
                 tableCard.setSuit(selectedCard.getSuit());
                 tableCard.setValue(selectedCard.getValue());
 
                 selectedCard.setSuit(Suits::None);
-                game.players[game.getHumanId()].sort();
+                game.players[Constants::HumanPlayer].sort();
 
                 gameState++;
                 game.resetFrameCount();
@@ -292,6 +440,7 @@ void play_Update() {
 
                     game.checkWinner(true);                    
                     gameState = GameState::Play_EOH;
+                    bid = 0;
 
                     if (game.getWinner() == 1) {
 
@@ -795,7 +944,7 @@ void play(ArduboyGBase_Config<ABG_Mode::L4_Triplane> &a) {
             SpritesU::drawOverwriteFX(111, 52, Images::Arrows, (static_cast<uint8_t>(game.getDirection()) * 3) + currentPlane);
             SpritesU::drawOverwriteFX(0, 0, Images::HighScores, currentPlane);
 
-            if (currentPlane < 1) {     // Dark Grey
+            if (currentPlane < 1) {     // Rener on Dark Grey only.
 
                 for (uint8_t i = 0; i < 4; i++) {
 

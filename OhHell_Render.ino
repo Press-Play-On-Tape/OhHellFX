@@ -3,19 +3,19 @@
 
 void renderPlayerHands(uint8_t currentPlane, uint8_t color) {
 
-    uint8_t cardCount = game.players[game.getHumanId()].getCardCount();
+    uint8_t cardCount = game.players[Constants::HumanPlayer].getCardCount();
 
     uint8_t xStart = 48 - (cardCount * 4);
 
     for (uint8_t i = 0; i < cardCount; i++) {
 
-        if (game.players[game.getHumanId()].getCard(i).getSuit() != Suits::None) {
+        if (game.players[Constants::HumanPlayer].getCard(i).getSuit() != Suits::None) {
 
             if (color == LIGHT_GREY) {
-                SpritesU::drawPlusMaskFX(xStart + (i * 8), 47, Images::Cards_Bottom, game.players[game.getHumanId()].getCard(i).getCardIndex() + currentPlane);
+                SpritesU::drawPlusMaskFX(xStart + (i * 8), 47, Images::Cards_Bottom, game.players[Constants::HumanPlayer].getCard(i).getCardIndex() + currentPlane);
             }
             else {
-                SpritesU::drawPlusMaskFX(xStart + (i * 8), 47, Images::Cards_Bottom_Grey, game.players[game.getHumanId()].getCard(i).getCardIndex() + currentPlane);
+                SpritesU::drawPlusMaskFX(xStart + (i * 8), 47, Images::Cards_Bottom_Grey, game.players[Constants::HumanPlayer].getCard(i).getCardIndex() + currentPlane);
             }
 
         }
@@ -57,7 +57,7 @@ void renderPlayerHands(uint8_t currentPlane, uint8_t color) {
 
 void renderPlayerHands_ValidOptions(uint8_t currentPlane) {
 
-    uint8_t playerCardCount = game.players[game.getHumanId()].getCardCount();
+    uint8_t playerCardCount = game.players[Constants::HumanPlayer].getCardCount();
     uint8_t xStart = 48 - (playerCardCount * 4);
 
     if (playerCardCount == 1) {
@@ -77,14 +77,14 @@ void renderPlayerHands_ValidOptions(uint8_t currentPlane) {
         }
         else {
 
-            bool hasSuit = game.players[game.getHumanId()].hasSuit(game.getTableCard(game.getFirstPlayer()).getSuit());
+            bool hasSuit = game.players[Constants::HumanPlayer].hasSuit(game.getTableCard(game.getFirstPlayer()).getSuit());
             Card &firstCard = game.getTableCard(game.getFirstPlayer());
 
             if (hasSuit) {
 
                 for (uint8_t i = 0; i < playerCardCount; i++) {
 
-                    Card &card = game.players[game.getHumanId()].getCard(i);
+                    Card &card = game.players[Constants::HumanPlayer].getCard(i);
 
                     if (card.getSuit() != Suits::None) {
 
@@ -136,12 +136,12 @@ void renderPlayerHands_ValidOptions(uint8_t currentPlane) {
 
 void renderHumanHand_LightGrey(uint8_t currentPlane) {
   
-    uint8_t cardCount = game.players[game.getHumanId()].getCardCount();
+    uint8_t cardCount = game.players[Constants::HumanPlayer].getCardCount();
     uint8_t xStart = 48 - (cardCount * 4);
 
     for (uint8_t i = 0; i < cardCount; i++) {
 
-        Card &card = game.players[game.getHumanId()].getCard(i);
+        Card &card = game.players[Constants::HumanPlayer].getCard(i);
 
         if (card.getSuit() != Suits::None) {
 

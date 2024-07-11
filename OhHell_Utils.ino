@@ -16,11 +16,13 @@ uint8_t getJustPressedButtons() {
 
 }
 
+
 uint8_t getPressedButtons() {
 
     return a.pressedButtons();
 
 }
+
 
 void saveCookie(bool enableLEDs) {
 
@@ -50,6 +52,7 @@ void saveCookie(bool enableLEDs) {
     #endif
 
 }
+
 
 void deactivateLEDs() {
 
