@@ -59,7 +59,6 @@ struct SynthU
     // test for audio enabled
     // return true if playing
     static bool update();
-    
 };
 
 #ifdef SYNTHU_IMPLEMENTATION
@@ -197,8 +196,10 @@ static inline uint8_t hi(uint16_t x)
 
 static void load_fx_data()
 {
+    uint8_t sreg = SREG;
     if(g_playing && g_tick.reps == 0)
     {
+        cli();
         SYNTHU_FX_READDATABYTES_FUNC(
             g_buffer_addr,
             (uint8_t*)&g_tick,
@@ -227,16 +228,19 @@ static void load_fx_data()
 #endif
         }
         g_tbase = t;
+        SREG = sreg;
     }
 #if SYNTHU_ENABLE_SFX
     if(g_playing_sfx && g_tick_sfx.reps == 0)
     {
+        cli();
         SYNTHU_FX_READDATABYTES_FUNC(
             g_buffer_addr_sfx,
             (uint8_t*)&g_tick_sfx,
             sizeof(g_tick_sfx));
         if(g_tick_sfx.cmd.period == 0)
             g_playing_sfx = false;
+        sreg = SREG;
     }
 #endif
         
@@ -478,7 +482,7 @@ ISR(TIMER3_COMPA_vect)
             uint16_t period = synthu_detail::ld_u16_inc(cmd);
             uint16_t pha = channel->pha;
             pha += adv;
-            while(pha >= period)
+            if(pha >= period)
                 pha -= period;
             uint16_t half_period = period / 2;
             if(pha < half_period)
